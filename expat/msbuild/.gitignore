@@ -1,0 +1,7 @@
+.vs
+*.exe
+*~
+# Build directories
+v120
+v140
+v141
