@@ -9,11 +9,6 @@
       <Platform>Win32</Platform>
     </PropertyGroup>
 
-    <!-- Visual Studio 2010 doesn't set DefaultPlatformToolset -->
-    <PropertyGroup>
-      <DefaultPlatformToolset Condition="'$(VisualStudioVersion)' == '10.0' And  '$(DefaultPlatformToolset)' == ''">v100</DefaultPlatformToolset>
-    </PropertyGroup>
-
     <PropertyGroup Condition="'$(DefaultPlatformToolset)' == ''">
       <DefaultPlatformToolset>v100</DefaultPlatformToolset>
     </PropertyGroup>
