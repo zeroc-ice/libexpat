@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>expat.v100</id>
-    <version>2.2.5</version>
+    <version>2.2.5.1</version>
     <authors>The Expat development team</authors>
     <licenseUrl>https://raw.githubusercontent.com/libexpat/libexpat/master/expat/COPYING</licenseUrl>
     <projectUrl>https://libexpat.github.io/</projectUrl>
