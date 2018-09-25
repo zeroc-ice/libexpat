@@ -1,0 +1,19 @@
+.vs
+*.exe
+*~
+# Build directories
+
+expat.v100/*
+v100/*
+
+expat.v110/*
+v110/*
+
+expat.v120/*
+v120/*
+
+expat.v140/*
+v140/*
+
+expat.v141/*
+v141/*
