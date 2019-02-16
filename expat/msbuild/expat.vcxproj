@@ -92,7 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
 
-  <ItemDefinitionGroup Condition="'$(DefaultPlatformToolset)'=='v141'">
+  <ItemDefinitionGroup Condition="'$(DefaultPlatformToolset)'=='v141' OR '$(DefaultPlatformToolset)'=='v142'">
     <Link>
       <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
