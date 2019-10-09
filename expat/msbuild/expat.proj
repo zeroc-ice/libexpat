@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="BuildDist" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
     <PropertyGroup Condition="'$(Configuration)' == ''">
@@ -50,7 +50,7 @@
       </Projects>
     </ItemGroup>
 
-    <Target Name="Build" DependsOnTargets="GetNuget">
+    <Target Name="BuildDist" DependsOnTargets="GetNuget">
         <MSBuild Projects="@(Projects)"
                  BuildInParallel="true"
                  Properties="%(Properties)"/>
@@ -65,7 +65,7 @@
     </PropertyGroup>
 
     <Target Name="NugetPack"
-            DependsOnTargets="Build">
+            DependsOnTargets="BuildDist">
             <RemoveDir Directories="$(PackageDirectory)" />
             <MSBuild Projects="expat.nuget.targets"
                      Properties="Configuration=Debug;Platform=Win32;PackageDirectory=$(PackageDirectory);DefaultPlatformToolset=$(DefaultPlatformToolset)" />
