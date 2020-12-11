@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CB78088E-3098-489C-9852-6CD6C55749F3}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(DefaultPlatformToolset)' == ''">
+    <DefaultPlatformToolset>v100</DefaultPlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup>
+    <OutDir>$(DefaultPlatformToolset)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(DefaultPlatformToolset)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TargetName>libexpatd</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TargetName>libexpat</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalOptions>/wd4244</AdditionalOptions>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)-objs.pdb</ProgramDataBaseFileName>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <LinkDLL>true</LinkDLL>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>$(OutDir)\$(TargetName).dll</OutputFile>
+      <ImportLibrary>$(OutDir)\$(TargetName).lib</ImportLibrary>
+      <ModuleDefinitionFile>..\lib\libexpat.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <StringPooling>true</StringPooling>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <!--
+      GenerateDebugInformation supported values change from v120 to v140 and v141,
+      we set it conditionally to the platform tool set.
+  -->
+    <ItemDefinitionGroup>
+    <Link>
+      <GenerateDebugInformation>Yes</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(DefaultPlatformToolset)'=='v140'">
+    <Link>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
+      <GenerateDebugInformation>Debug</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(DefaultPlatformToolset)'=='v141' OR '$(DefaultPlatformToolset)'=='v142'">
+    <Link>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\lib\libexpat.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\lib\xmlparse.c" />
+    <ClCompile Include="..\lib\xmlrole.c" />
+    <ClCompile Include="..\lib\xmltok.c" />
+    <ClCompile Include="..\lib\xmltok_impl.c" />
+    <ClCompile Include="..\lib\xmltok_ns.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib\ascii.h" />
+    <ClInclude Include="..\lib\asciitab.h" />
+    <ClInclude Include="..\lib\expat.h" />
+    <ClInclude Include="..\lib\expat_external.h" />
+    <ClInclude Include="..\lib\iasciitab.h" />
+    <ClInclude Include="..\lib\internal.h" />
+    <ClInclude Include="..\lib\latin1tab.h" />
+    <ClInclude Include="..\lib\nametab.h" />
+    <ClInclude Include="..\lib\utf8tab.h" />
+    <ClInclude Include="..\lib\xmlrole.h" />
+    <ClInclude Include="..\lib\xmltok.h" />
+    <ClInclude Include="..\lib\xmltok_impl.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <PropertyGroup>
+    <TimeStampServer>http://timestamp.digicert.com</TimeStampServer>
+    <SignCommandSHA1>signtool sign /f "$(SIGN_CERTIFICATE)" /p $(SIGN_PASSWORD) /t $(TimeStampServer)</SignCommandSHA1>
+    <SignCommandSHA256>signtool sign /f "$(SIGN_CERTIFICATE)" /p $(SIGN_PASSWORD) /tr $(TimeStampServer) /td sha256 /fd sha256 /as</SignCommandSHA256>
+    <SignTarget>$(OutDir)$(TargetName)$(TargetExt)</SignTarget>
+  </PropertyGroup>
+
+  <Target Name="SignPackage" AfterTargets="Build"
+          Condition="Exists('$(SIGN_CERTIFICATE)') and (!Exists('$(IntDir)sign.log') or $([System.IO.File]::GetLastWriteTime('$(SignTarget)').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(IntDir)sign.log').Ticks))">
+    <Message Text="Signing $(SignTarget)" />
+
+    <Exec Command="$(SignCommandSHA1) $(SignTarget)" EchoOff="yes"/>
+    <Exec Command="$(SignCommandSHA256) $(SignTarget)" EchoOff="yes"
+          Condition="'$(DefaultPlatformToolset)' != 'v100'"/>
+
+    <WriteLinesToFile File                = "$(IntDir)sign.log"
+                      Encoding            = "Unicode"
+                      Overwrite           = "true"
+                      Lines               = "Signing $(SignTarget)"/>
+  </Target>
+
+  <Target Name="SignPackageClean" AfterTargets="Clean">
+     <Delete Files="$(IntDir)sign.log" />
+  </Target>
+</Project>
