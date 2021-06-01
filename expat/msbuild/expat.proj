@@ -40,18 +40,18 @@
       <Exec Command="cmake -G&quot;$(Generator)&quot; -DCMAKE_BUILD_TYPE=Release -DEXPAT_WARNINGS_AS_ERRORS=ON -A x64 $(MSBuildThisFileDirectory).."
             WorkingDirectory="$(DefaultPlatformToolset)-x64"/>
       
-      <MSBuild Projects="$(DefaultPlatformToolset)-x64\expat.vcxproj" BuildInParallel="true" Properties="Configuration=Release;Platform=x64"/>
+      <MSBuild Projects="$(DefaultPlatformToolset)-x64\expat.vcxproj" BuildInParallel="true" Properties="Configuration=RelWithDebInfo;Platform=x64"/>
       <MSBuild Projects="$(DefaultPlatformToolset)-x64\expat.vcxproj" BuildInParallel="true" Properties="Configuration=Debug;Platform=x64"/>
-      <MSBuild Projects="$(DefaultPlatformToolset)-Win32\expat.vcxproj" BuildInParallel="true" Properties="Configuration=Release;Platform=Win32"/>
+      <MSBuild Projects="$(DefaultPlatformToolset)-Win32\expat.vcxproj" BuildInParallel="true" Properties="Configuration=RelWithDebInfo;Platform=Win32"/>
       <MSBuild Projects="$(DefaultPlatformToolset)-Win32\expat.vcxproj" BuildInParallel="true" Properties="Configuration=Debug;Platform=Win32"/>
 
-      <Exec Command="$(SignCommandSHA1) $(DefaultPlatformToolset)-x64\Release\libexpat.dll" EchoOff="yes"/>
-      <Exec Command="$(SignCommandSHA1) $(DefaultPlatformToolset)-Win32\Release\libexpat.dll" EchoOff="yes"/>
+      <Exec Command="$(SignCommandSHA1) $(DefaultPlatformToolset)-x64\RelWithDebInfo\libexpat.dll" EchoOff="yes"/>
+      <Exec Command="$(SignCommandSHA1) $(DefaultPlatformToolset)-Win32\RelWithDebInfo\libexpat.dll" EchoOff="yes"/>
       <Exec Command="$(SignCommandSHA1) $(DefaultPlatformToolset)-x64\Debug\libexpatd.dll" EchoOff="yes"/>
       <Exec Command="$(SignCommandSHA1) $(DefaultPlatformToolset)-Win32\Debug\libexpatd.dll" EchoOff="yes"/>
 
-      <Exec Command="$(SignCommandSHA256) $(DefaultPlatformToolset)-x64\Release\libexpat.dll" EchoOff="yes" Condition="'$(DefaultPlatformToolset)' != 'v100'"/>
-      <Exec Command="$(SignCommandSHA256) $(DefaultPlatformToolset)-Win32\Release\libexpat.dll" EchoOff="yes" Condition="'$(DefaultPlatformToolset)' != 'v100'"/>
+      <Exec Command="$(SignCommandSHA256) $(DefaultPlatformToolset)-x64\RelWithDebInfo\libexpat.dll" EchoOff="yes" Condition="'$(DefaultPlatformToolset)' != 'v100'"/>
+      <Exec Command="$(SignCommandSHA256) $(DefaultPlatformToolset)-Win32\RelWithDebInfo\libexpat.dll" EchoOff="yes" Condition="'$(DefaultPlatformToolset)' != 'v100'"/>
       <Exec Command="$(SignCommandSHA256) $(DefaultPlatformToolset)-x64\Debug\libexpatd.dll" EchoOff="yes" Condition="'$(DefaultPlatformToolset)' != 'v100'"/>
       <Exec Command="$(SignCommandSHA256) $(DefaultPlatformToolset)-Win32\Debug\libexpatd.dll" EchoOff="yes" Condition="'$(DefaultPlatformToolset)' != 'v100'"/>
     </Target>

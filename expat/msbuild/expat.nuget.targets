@@ -1,9 +1,13 @@
 <Project DefaultTargets="NugetPack" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <SourceConfiguration Condition="'$(Configuration)' == 'Debug'">Debug</SourceConfiguration>
+        <SourceConfiguration Condition="'$(Configuration)' == 'Release'">RelWithDebInfo</SourceConfiguration>
+    </PropertyGroup>
     <ItemGroup>
-        <DLLs Include="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(Configuration)\*.dll" />
-        <Libraries Include="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(Configuration)\*.lib" />
-        <PDBs Include="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(Configuration)\*.pdb"
-              Exclude="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(Configuration)\vc*.pdb" />
+        <DLLs Include="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(SourceConfiguration)\*.dll" />
+        <Libraries Include="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(SourceConfiguration)\*.lib" />
+        <PDBs Include="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(SourceConfiguration)\*.pdb"
+              Exclude="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(SourceConfiguration)\vc*.pdb" />
     </ItemGroup>
 
     <!-- Copy required files to the package specific directories -->
