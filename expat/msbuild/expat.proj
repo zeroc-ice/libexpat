@@ -87,8 +87,7 @@
                   DestinationFolder="$(PackageDirectory)" />
             <Copy SourceFiles="expat.$(DefaultPlatformToolset).targets"
                   DestinationFolder="$(PackageDirectory)\build\native" />
-            <Exec Command="$(MSBuildThisFileDirectory)nuget pack -NoPackageAnalysis -NonInteractive"
-                  WorkingDirectory="$(PackageDirectory)"/>
+            <Exec Command="$(NugetExe) pack -NoPackageAnalysis -NonInteractive" WorkingDirectory="$(PackageDirectory)"/>
     </Target>
 
 </Project>
