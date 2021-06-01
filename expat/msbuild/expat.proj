@@ -30,10 +30,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <SignTarget>$(DefaultPlatformToolset)-x64\Release\libexpat.dll</SignTarget>
-      <SignTarget>$(DefaultPlatformToolset)-Win32\Release\libexpat.dll</SignTarget>
-      <SignTarget>$(DefaultPlatformToolset)-x64\Debug\libexpatd.dll</SignTarget>
-      <SignTarget>$(DefaultPlatformToolset)-Win32\Debug\libexpatd.dll</SignTarget>
+      <SignTarget Include="$(DefaultPlatformToolset)-x64\Release\libexpat.dll" />
+      <SignTarget Include="$(DefaultPlatformToolset)-Win32\Release\libexpat.dll" />
+      <SignTarget Include="$(DefaultPlatformToolset)-x64\Debug\libexpatd.dll" />
+      <SignTarget Include="$(DefaultPlatformToolset)-Win32\Debug\libexpatd.dll" />
     </ItemGroup>
 
     <!-- Download nuget.exe if not present -->
