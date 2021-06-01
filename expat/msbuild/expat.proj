@@ -1,0 +1,95 @@
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+    <PropertyGroup Condition="'$(Configuration)' == ''">
+      <Configuration>Debug</Configuration>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Platform)' == ''">
+      <Platform>Win32</Platform>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <DefaultPlatformToolset Condition="'$(DefaultPlatformToolset)' == ''">v100</DefaultPlatformToolset>
+    </PropertyGroup>
+
+    <PropertyGroup >
+      <Generator Condition="'$(DefaultPlatformToolset)' == 'v100'">Visual Studio 10 2010</Generator>
+      <Generator Condition="'$(DefaultPlatformToolset)' == 'v110'">Visual Studio 11 2012</Generator>
+      <Generator Condition="'$(DefaultPlatformToolset)' == 'v120'">Visual Studio 12 2013</Generator>
+      <Generator Condition="'$(DefaultPlatformToolset)' == 'v140'">Visual Studio 14 2015</Generator>
+      <Generator Condition="'$(DefaultPlatformToolset)' == 'v141'">Visual Studio 15 2017</Generator>
+      <Generator Condition="'$(DefaultPlatformToolset)' == 'v142'">Visual Studio 16 2019</Generator>
+    </PropertyGroup>
+
+    <!-- Custom task to download files -->
+    <UsingTask TaskName="DownloadFile"
+               TaskFactory="CodeTaskFactory"
+               AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+        <ParameterGroup>
+            <Address ParameterType="System.String" Required="true"/>
+            <FileName ParameterType="System.String" Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Reference Include="System" />
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+                new System.Net.WebClient().DownloadFile(Address, FileName);
+                ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+
+    <!-- Download nuget.exe if not present -->
+    <Target Name="GetNuget" Condition="!Exists('$(MSBuildThisFileDirectory)nuget.exe')">
+        <DownloadFile Address="http://nuget.org/nuget.exe" FileName="$(MSBuildThisFileDirectory)nuget.exe" />
+    </Target>
+
+    <Target Name="Build" DependsOnTargets="GetNuget">
+      <MakeDir Directories="$(DefaultPlatformToolset)-Win32" />
+      <MakeDir Directories="$(DefaultPlatformToolset)-x64" />
+      <Exec Command="cmake -G&quot;$(Generator)&quot; -DCMAKE_BUILD_TYPE=Release -DEXPAT_WARNINGS_AS_ERRORS=ON -A Win32 $(MSBuildThisFileDirectory).."
+            WorkingDirectory="$(DefaultPlatformToolset)-Win32"/>
+      <Exec Command="cmake -G&quot;$(Generator)&quot; -DCMAKE_BUILD_TYPE=Release -DEXPAT_WARNINGS_AS_ERRORS=ON -A x64 $(MSBuildThisFileDirectory).."
+            WorkingDirectory="$(DefaultPlatformToolset)-x64"/>
+      
+      <MSBuild Projects="$(DefaultPlatformToolset)-x64\expat.vcxproj" BuildInParallel="true" Properties="Configuration=Release;Platform=x64"/>
+      <MSBuild Projects="$(DefaultPlatformToolset)-x64\expat.vcxproj" BuildInParallel="true" Properties="Configuration=Debug;Platform=x64"/>
+      <MSBuild Projects="$(DefaultPlatformToolset)-Win32\expat.vcxproj" BuildInParallel="true" Properties="Configuration=Release;Platform=Win32"/>
+      <MSBuild Projects="$(DefaultPlatformToolset)-Win32\expat.vcxproj" BuildInParallel="true" Properties="Configuration=Debug;Platform=Win32"/>
+    </Target>
+
+    <Target Name="Clean">
+        <MSBuild Projects="@(Projects)" Properties="%(Properties)" Targets="Clean" />
+    </Target>
+
+    <PropertyGroup>
+        <PackageDirectory>expat.$(DefaultPlatformToolset)</PackageDirectory>
+    </PropertyGroup>
+
+    <Target Name="NugetPack"
+            DependsOnTargets="Build">
+            <RemoveDir Directories="$(PackageDirectory)" />
+            <MSBuild Projects="expat.nuget.targets"
+                     Properties="Configuration=Debug;Platform=Win32;PackageDirectory=$(PackageDirectory);DefaultPlatformToolset=$(DefaultPlatformToolset)" />
+            <MSBuild Projects="expat.nuget.targets"
+                     Properties="Configuration=Debug;Platform=x64;PackageDirectory=$(PackageDirectory);DefaultPlatformToolset=$(DefaultPlatformToolset)" />
+            <MSBuild Projects="expat.nuget.targets"
+                     Properties="Configuration=Release;Platform=Win32;PackageDirectory=$(PackageDirectory);DefaultPlatformToolset=$(DefaultPlatformToolset)" />
+            <MSBuild Projects="expat.nuget.targets"
+                     Properties="Configuration=Release;Platform=x64;PackageDirectory=$(PackageDirectory);DefaultPlatformToolset=$(DefaultPlatformToolset)" />
+            <Copy SourceFiles="..\lib\expat.h"
+                  DestinationFolder="$(PackageDirectory)\build\native\include" />
+            <Copy SourceFiles="..\lib\expat_external.h"
+                  DestinationFolder="$(PackageDirectory)\build\native\include" />
+            <Copy SourceFiles="README.$(DefaultPlatformToolset).md"
+                  DestinationFiles="$(PackageDirectory)\README.md" />
+            <Copy SourceFiles="expat.$(DefaultPlatformToolset).nuspec"
+                  DestinationFolder="$(PackageDirectory)" />
+            <Copy SourceFiles="expat.$(DefaultPlatformToolset).targets"
+                  DestinationFolder="$(PackageDirectory)\build\native" />
+            <Exec Command="$(MSBuildThisFileDirectory)nuget pack -NoPackageAnalysis -NonInteractive"
+                  WorkingDirectory="$(PackageDirectory)"/>
+    </Target>
+
+</Project>

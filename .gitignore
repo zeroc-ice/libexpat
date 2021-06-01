@@ -35,3 +35,9 @@ expat/**/*.sdf
 expat/**/*.VC.db
 expat/tests/**/Debug/
 expat/tests/**/Release/
+expat/msbuild/v100*
+expat/msbuild/v110*
+expat/msubild/v120*
+expat/msbuild/v140*
+expat/msbuild/v141*
+expat/msbuild/v142*
