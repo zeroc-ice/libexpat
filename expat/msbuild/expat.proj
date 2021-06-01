@@ -21,8 +21,6 @@
   </PropertyGroup>
 
     <PropertyGroup >
-      <Generator Condition="'$(DefaultPlatformToolset)' == 'v100'">Visual Studio 10 2010</Generator>
-      <Generator Condition="'$(DefaultPlatformToolset)' == 'v110'">Visual Studio 11 2012</Generator>
       <Generator Condition="'$(DefaultPlatformToolset)' == 'v120'">Visual Studio 12 2013</Generator>
       <Generator Condition="'$(DefaultPlatformToolset)' == 'v140'">Visual Studio 14 2015</Generator>
       <Generator Condition="'$(DefaultPlatformToolset)' == 'v141'">Visual Studio 15 2017</Generator>

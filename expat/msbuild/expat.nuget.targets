@@ -1,9 +1,9 @@
 <Project DefaultTargets="NugetPack" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <ItemGroup>
-        <DLLs Include="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(Platform)\$(Configuration)\*.dll" />
-        <Libraries Include="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(Platform)\$(Configuration)\*.lib" />
-        <PDBs Include="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(Platform)\$(Configuration)\*.pdb"
-              Exclude="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(Platform)\$(Configuration)\vc*.pdb" />
+        <DLLs Include="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(Configuration)\*.dll" />
+        <Libraries Include="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(Configuration)\*.lib" />
+        <PDBs Include="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(Configuration)\*.pdb"
+              Exclude="$(MSBuildThisFileDirectory)$(DefaultPlatformToolset)-$(Platform)\$(Configuration)\vc*.pdb" />
     </ItemGroup>
 
     <!-- Copy required files to the package specific directories -->
